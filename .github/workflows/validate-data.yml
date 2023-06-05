@@ -9,6 +9,18 @@ on:
       public-key:
         required: true
         type: string
+
+      # Unfortunately inputs does not support arrays, support up to 4 keys for now
+      public-key-0:
+        required: false
+        type: string
+      public-key-1:
+        required: false
+        type: string
+      public-key-2:
+        required: false
+        type: string
+
       signature-type:
         required: true
         type: string
@@ -56,6 +68,10 @@ jobs:
           REPO_SIGNATURE_TYPE: ${{ inputs.signature-type }}
           REPO_URL: file://${{ github.workspace }}/${{ inputs.json-path }}
           REPO_KEY: ${{ inputs.public-key }}
+          REPO_KEY_0: ${{ inputs.public-key-0 || '' }}
+          REPO_KEY_1: ${{ inputs.public-key-1 || '' }}
+          REPO_KEY_2: ${{ inputs.public-key-2 || '' }}
+
         run: ../../mvnw --batch-mode clean test
         working-directory: api/marketplace/adoptium-marketplace-vendor-validation
 
